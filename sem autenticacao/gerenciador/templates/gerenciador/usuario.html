@@ -1,0 +1,76 @@
+{% load static %}
+<link rel='stylesheet' type='text/css' href="{% static 'styles/application.css' %}" />
+<link rel='stylesheet' type='text/css' href="{% static 'styles/usuario.css' %}" />
+<head>
+    <title>Gerenciador de projetos</title>
+</head>
+<body>
+    <a href='..'>Voltar</a>
+    <h2>{{ u.nome }}</h2>
+    <h2>Meus Projetos</h2>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th colspan="3">
+              Meus Projetos:
+            </th>
+          </tr>
+          <tr>
+            <th>Nome</th>
+            <th colspan="2">Descrição</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in projetos_admin %}
+            <tr>
+              <td>
+                <a href={{p.id}}>{{ p.nome }}</a>
+              </td>
+              <td>
+                <p>{{ p.descricao }}</p>
+              </td>
+              <td class="button-col">
+                <a href=".{% url "delete_prj" p.id %}">delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Projetos que colaboro</h2>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th colspan="2">
+              Projetos que eu colaboro:
+            </th>
+          </tr>
+          <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in projetos_colab %}
+            <tr>
+              <td>
+                <a href={{p.id}}>{{ p.nome }}</a>
+              </td>
+              <td>
+                <p>{{ p.descricao }}</p>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <h2>Adicionar projeto</h2>
+     <form class='form' method='POST'> {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+</body>

@@ -1,0 +1,60 @@
+{% load static %}
+<link rel='stylesheet' type='text/css' href="{% static 'styles/application.css' %}" />
+<link rel='stylesheet' type='text/css' href="{% static 'styles/projeto.css' %}" />
+<head>
+    <title>Gerenciador de projetos</title>
+</head>
+<body>
+    <a href='..'>Voltar</a>
+    <h2>{{ p.nome }}</h2>
+    <p>{{ p.descricao }}</p>
+    <p>Admin: {{p.admin}}</p>
+    <h2>Dependencias</h2>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th colspan="3">
+              Dependencia:
+            </th>
+          </tr>
+          <tr>
+            <th>Nome</th>
+            <th colspan="2">Descrição</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for d in dependencias %}
+            <tr>
+              <td>
+                <p>{{ d.nome }}</p>
+              </td>
+              <td>
+                <p>{{ d.descricao }}</p>
+              </td>
+              <td class="button-col">
+                <a href=".{% url "delete_dep" d.id %}">delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+    <h2>Adicionar dependência</h2>
+     <form class='form' method='POST'> {% csrf_token %}
+        {{ form_dep.as_p }}
+        <button type="submit" class="save btn btn-default" name = 'dep'>Save</button>
+    </form>
+    <h2>Colaboradores</h2>
+    <ul>
+    {% for c in colaboradores %}
+        <li>{{ c.nome }}</li>
+    {% endfor %}
+    </ul>
+    <h2>Adicionar colaborador</h2>
+     <form class='form' method='POST'> {% csrf_token %}
+        {{ form_colab.as_p }}
+        <button type="submit" class="save btn btn-default" name = 'colab'>Save</button>
+    </form>
+</body>

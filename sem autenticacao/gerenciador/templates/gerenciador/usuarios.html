@@ -1,0 +1,40 @@
+{% load static %}
+<link rel='stylesheet' type='text/css' href="{% static 'styles/application.css' %}" />
+<link rel='stylesheet' type='text/css' href="{% static 'styles/usuarios.css' %}" />
+<head>
+  <title>Gerenciador de projetos</title>
+</head>
+<body>
+  <h2>Usuarios</h2>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2">
+            Usuarios:
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in usuarios %}
+          <tr>
+            <td>
+              <a href={{u.id}}>{{ u.nome }}</a>
+            </td>
+            <td class="button-col">
+              <a href="{% url "delete_usr" u.id %}">delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <h3>Adicionar usuario:</h3>
+
+    <form class='form' method='POST'> {% csrf_token %}
+      {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+  </div>
+</body>
