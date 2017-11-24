@@ -19,6 +19,6 @@ from django.contrib.auth import views as auth_views
 from gerenciador import views as gerenciador_views
 
 urlpatterns = [
-    url(r'^$', gerenciador_views.home, name='home'),
+    url(r'^admin/', admin.site.urls),
     url(r'', include('gerenciador.urls')),
 ]
