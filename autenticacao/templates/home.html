@@ -7,7 +7,17 @@
 
 Your projects:
 <ul>
-{% for p in projects %}
+{% for p in projects_admin %}
+<li>
+{{ p.nome }}
+</li>
+{{ p.descricao }}
+{% endfor %}
+</ul>
+
+Projects you contribute to:
+<ul>
+{% for p in projects_contribute %}
 <li>
 {{ p.nome }}
 </li>

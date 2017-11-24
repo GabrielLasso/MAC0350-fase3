@@ -13,8 +13,9 @@ from .models import *
 def home(request):
     user = request.user
     projetos_admin = Projeto.objects.raw('SELECT * FROM gerenciador_projeto WHERE admin_id=%s',[user.id]) 
-    projetos_colab = Projeto.objects.raw('SELECT * FROM gerenciador_projeto, gerenciador_colaborador WHERE usuario_id=%s',[user.id])
-    return render(request, 'home.html',{'projects':projetos_admin})
+    projetos_colab = Projeto.objects.raw('SELECT * FROM gerenciador_projeto, gerenciador_colaborador WHERE projeto_id=gerenciador_projeto.id AND usuario_id=%s',[user.id])
+    print projetos_colab
+    return render(request, 'home.html',{'projects_admin':projetos_admin, 'projects_contribute':projetos_colab})
 
 def signup(request):
     if request.method == 'POST':

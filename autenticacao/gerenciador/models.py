@@ -27,4 +27,4 @@ class Colaborador(models.Model):
     projeto = models.ForeignKey(Projeto, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user.get_full_name() + '-' + self.projeto.nome
+        return self.usuario.get_full_name() + '-' + self.projeto.nome

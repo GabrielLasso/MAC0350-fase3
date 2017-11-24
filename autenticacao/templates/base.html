@@ -8,8 +8,9 @@
   <header>
     <h1>Gerenciador de requisitos</h1>
     {% if user.is_authenticated %}
-      Hi {{ user.username }}!
+      <a href="{% url 'home' %}">home</a>
       <a href="{% url 'logout' %}">logout</a>
+      <p>Hi {{ user.username }}!</p>
     {% else %}
       <a href="{% url 'login' %}">login</a>
     {% endif %}
