@@ -5,17 +5,17 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from forms import *
-from .models import *
+from models import *
 
 # Create your views here.
 
 @login_required
 def home(request):
     user = request.user
-    projetos_admin = Projeto.objects.raw('SELECT * FROM gerenciador_projeto WHERE admin_id=%s',[user.id]) 
-    projetos_colab = Projeto.objects.raw('SELECT * FROM gerenciador_projeto, gerenciador_colaborador WHERE projeto_id=gerenciador_projeto.id AND usuario_id=%s',[user.id])
-    print projetos_colab
-    return render(request, 'home.html',{'projects_admin':projetos_admin, 'projects_contribute':projetos_colab})
+    projetos_admin = user.administers.all()
+    projetos_colab = user.colaborates.all()
+    return render(request, 'home.html',{'projects_admin':projetos_admin,
+                                        'projects_contribute':projetos_colab})
 
 def signup(request):
     if request.method == 'POST':

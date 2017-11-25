@@ -8,4 +8,4 @@ from .models import *
 
 admin.site.register(Projeto)
 admin.site.register(Dependencia)
-admin.site.register(Colaborador)
+# admin.site.register(Colaborador)
