@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Project{% endblock %}
+
+{% block content %}
+<h1>{{ project.name }}</h1>
+
+<p>Owner: {{ project.admin }}</p>
+
+<p>Description: {{ project.description }}</p>
+
+{% if project.contributors.all %}
+    <ul>
+    {% for user in project.contributors.all %}
+        <li>{{ user }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No contributing users.</p>
+{% endif %}
+
+<a href="{% url 'project_update' project.id %}">edit</a>
+<a href="{% url 'project_delete' project.id %}">delete</a>
+
+{% endblock %}
