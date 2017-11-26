@@ -12,5 +12,5 @@ class SignUpForm(UserCreationForm):
 
 class ProjectForm(forms.ModelForm):
     class Meta:
-        model = Projeto
-        fields = ('nome', 'descricao')
+        model = Project
+        fields = ('name', 'description')

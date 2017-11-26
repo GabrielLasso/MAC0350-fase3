@@ -12,10 +12,10 @@ from models import *
 @login_required
 def home(request):
     user = request.user
-    projetos_admin = user.administers.all()
-    projetos_colab = user.colaborates.all()
-    return render(request, 'home.html',{'projects_admin':projetos_admin,
-                                        'projects_contribute':projetos_colab})
+    projects_admin = user.administers.all()
+    projects_cntrb = user.contributes.all()
+    return render(request, 'home.html',{'projects_admin':projects_admin,
+                                        'projects_contribute':projects_cntrb})
 
 def signup(request):
     if request.method == 'POST':
@@ -32,7 +32,7 @@ def signup(request):
     return render(request, 'signup.html', {'form': form})
 
 @login_required
-def new_project(request):
+def project_new(request):
     user = request.user
     if request.method == 'POST':
         form = ProjectForm(request.POST)
@@ -43,5 +43,5 @@ def new_project(request):
         return redirect(home)
     else:
         form = ProjectForm()
-    return render(request, 'new_project.html', {'form': form})
+    return render(request, 'gerenciador/project_new.html', {'form': form})
 

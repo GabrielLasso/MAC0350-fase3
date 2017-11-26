@@ -6,23 +6,26 @@
   <h2>Home</h2>
 
 Your projects:
-<ul>
-{% for p in projects_admin %}
-<li>
-{{ p.nome }}
-</li>
-{{ p.descricao }}
-{% endfor %}
-</ul>
-
+{% if projects_admin %}
+    <ul>
+    {% for project in projects_admin %}
+        <li><a href="/projects/{{ project.id }}/">{{ project }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No projects are available.</p>
+{% endif %}
+<a href='/projects/new'>new project</a>
+<br>
+<br>
 Projects you contribute to:
-<ul>
-{% for p in projects_contribute %}
-<li>
-{{ p.nome }}
-</li>
-{{ p.descricao }}
-{% endfor %}
-</ul>
-<a href='/new_project/'>new project</a>
+{% if projects_contribute %}
+    <ul>
+    {% for project in projects_contribute %}
+        <li><a href="/projects/{{ project.id }}/">{{ project }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No projects are available.</p>
+{% endif %}
 {% endblock %}
