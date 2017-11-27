@@ -57,18 +57,3 @@ class ProjectUpdate(UpdateView):
 class ProjectDelete(DeleteView):
     model = Project
     success_url = reverse_lazy('home')
-
-# @login_required
-# def project_new(request):
-#     user = request.user
-#     if request.method == 'POST':
-#         form = ProjectForm(request.POST)
-#         if form.is_valid():
-#             project = form.save(commit = False)
-#             project.admin = user
-#             project.save()
-#         return redirect(home)
-#     else:
-#         form = ProjectForm()
-#     return render(request, 'gerenciador/project_new.html', {'form': form})
-
