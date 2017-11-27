@@ -57,3 +57,17 @@ class ProjectUpdate(UpdateView):
 class ProjectDelete(DeleteView):
     model = Project
     success_url = reverse_lazy('home')
+
+class UserView(generic.DetailView):
+    model = User
+
+@method_decorator(login_required, name='dispatch')
+class UserUpdate(UpdateView):
+    model = User
+    form_class = SignUpForm
+
+@method_decorator(login_required, name='dispatch')
+class UserDelete(DeleteView):
+    model = User
+    success_url = reverse_lazy('home')
+

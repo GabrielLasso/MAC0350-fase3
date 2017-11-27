@@ -124,3 +124,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = LOGIN_URL
+
+ABSOLUTE_URL_OVERRIDES = {
+    'auth.user': lambda u: "/users/%s/" % u.id,
+}
