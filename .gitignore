@@ -102,3 +102,12 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# Emacs
+*~
+
+# Mac
+*.DS_Store
+
+# Database
+*.sqlite3

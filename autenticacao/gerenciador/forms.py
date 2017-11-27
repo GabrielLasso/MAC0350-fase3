@@ -16,6 +16,12 @@ class SignUpForm(UserCreationForm):
         	raise forms.ValidationError("This email is already used")
     	return data
 
+class EditUserForm(SignUpForm):
+
+    def clean_email(self):
+    	data = self.cleaned_data['email']
+    	return data
+
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project

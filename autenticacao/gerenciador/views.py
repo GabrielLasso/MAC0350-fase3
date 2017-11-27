@@ -64,7 +64,7 @@ class UserView(generic.DetailView):
 @method_decorator(login_required, name='dispatch')
 class UserUpdate(UpdateView):
     model = User
-    form_class = SignUpForm
+    form_class = EditUserForm
 
 @method_decorator(login_required, name='dispatch')
 class UserDelete(DeleteView):
