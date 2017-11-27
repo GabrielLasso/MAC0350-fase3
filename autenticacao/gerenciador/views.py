@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -44,30 +44,45 @@ class ProjectCreate(CreateView):
         form.instance.admin = self.request.user
         return super(ProjectCreate, self).form_valid(form)
     
-@method_decorator(login_required, name='dispatch')
-class ProjectView(generic.DetailView):
+class CanModify(UserPassesTestMixin):
+    login_url = 'home'
+    
+    def test_func(self):
+        project = self.get_object()
+        return self.request.user == project.admin or self.request.user in project.contributors.all()
+
+class CanDelete(UserPassesTestMixin):
+    login_url = 'home'
+
+    def test_func(self):
+        return self.request.user == self.get_object().admin
+
+class ProjectView(CanModify, generic.DetailView):
     model = Project
 
-@method_decorator(login_required, name='dispatch')
-class ProjectUpdate(UpdateView):
+class ProjectUpdate(CanModify, UpdateView):
     model = Project
     fields = ['name', 'description', 'contributors']
 
-@method_decorator(login_required, name='dispatch')
-class ProjectDelete(DeleteView):
+class ProjectDelete(CanDelete, DeleteView):
     model = Project
     success_url = reverse_lazy('home')
 
-class UserView(generic.DetailView):
+class IsTargetUser(UserPassesTestMixin):
+    login_url = 'home'
+
+    def test_func(self):
+        return self.request.user == self.get_object()
+
+class UserView(IsTargetUser, generic.DetailView):
     model = User
 
-@method_decorator(login_required, name='dispatch')
-class UserUpdate(UpdateView):
+
+class UserUpdate(IsTargetUser, UpdateView):
     model = User
     form_class = EditUserForm
 
-@method_decorator(login_required, name='dispatch')
-class UserDelete(DeleteView):
+class UserDelete(IsTargetUser, DeleteView):
     model = User
     success_url = reverse_lazy('home')
 
