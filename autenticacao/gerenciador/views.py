@@ -23,7 +23,7 @@ def home(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST)
+        form = UserForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
@@ -32,7 +32,7 @@ def signup(request):
             login(request, user)
             return redirect('home')
     else:
-        form = SignUpForm()
+        form = UserForm()
     return render(request, 'signup.html', {'form': form})
 
 @method_decorator(login_required, name='dispatch')
@@ -80,7 +80,7 @@ class UserView(IsTargetUser, generic.DetailView):
 
 class UserUpdate(IsTargetUser, UpdateView):
     model = User
-    form_class = EditUserForm
+    form_class = UserForm
 
 class UserDelete(IsTargetUser, DeleteView):
     model = User

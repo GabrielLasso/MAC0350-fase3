@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import *
 
-class SignUpForm(UserCreationForm):
+class UserForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
 
     class Meta:
@@ -11,16 +11,11 @@ class SignUpForm(UserCreationForm):
         fields = ('username', 'email', 'password1', 'password2', )
 
     def clean_email(self):
-    	data = self.cleaned_data['email']
-    	if User.objects.filter(email=data).exists():
-        	raise forms.ValidationError("This email is already used")
-    	return data
-
-class EditUserForm(SignUpForm):
-
-    def clean_email(self):
-    	data = self.cleaned_data['email']
-    	return data
+        email = self.cleaned_data.get('email')
+        username = self.cleaned_data.get('username')
+        if email and User.objects.filter(email=email).exclude(username=username).exists():
+            raise forms.ValidationError(u'Email addresses must be unique.')
+        return email
 
 class ProjectForm(forms.ModelForm):
     class Meta:
