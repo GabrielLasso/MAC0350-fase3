@@ -10,6 +10,7 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from forms import *
 from models import *
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -35,6 +36,9 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
 
+
+# Crud for Projects
+# #######################################################
 @method_decorator(login_required, name='dispatch')
 class ProjectCreate(CreateView):
     model = Project
@@ -47,6 +51,12 @@ class ProjectCreate(CreateView):
 @method_decorator(login_required, name='dispatch')
 class ProjectView(generic.DetailView):
     model = Project
+    def get(self, *args, **kwargs):
+        project = self.get_object()
+        requirements_project = Requirement.objects.filter(project=project)
+        print requirements_project
+        return super(ProjectView, self).get(*args, **kwargs)
+
 
 @method_decorator(login_required, name='dispatch')
 class ProjectUpdate(UpdateView):
@@ -57,3 +67,39 @@ class ProjectUpdate(UpdateView):
 class ProjectDelete(DeleteView):
     model = Project
     success_url = reverse_lazy('home')
+
+
+# Crud for Requirements
+# #######################################################
+@method_decorator(login_required, name='dispatch')
+class RequirementCreate(CreateView):
+    model = Requirement
+    fields = ['name', 'description']
+    #def get_context_data (self, **kwargs):
+    #    context = super(RequirementCreate, self).get_context_data(**kwargs)
+    #    print self.request.session['project_id']
+    #    print "AAAAAAAA" + context
+    #    return context
+
+    def form_valid(self, form):
+        project_id = self.kwargs["pk"]
+        print project_id
+        form.instance.project = Project.objects.get(id=project_id)
+        return super(RequirementCreate, self).form_valid(form) 
+
+
+
+@method_decorator(login_required, name='dispatch')
+class RequirementView(generic.DetailView):
+    model = Requirement
+
+@method_decorator(login_required, name='dispatch')
+class RequirementUpdate(UpdateView):
+    model = Requirement
+    fields = ['name', 'description']
+
+@method_decorator(login_required, name='dispatch')
+class RequirementDelete(DeleteView):
+    model = Requirement
+    success_url = reverse_lazy('home')
+   

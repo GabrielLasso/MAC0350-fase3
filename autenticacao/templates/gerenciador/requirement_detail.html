@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Project{% endblock %}
+
+{% block content %}
+
+<h1>{{ requirement.name }}</h1>
+
+<p>Owner: {{ requirement.admin }}</p>
+
+<p>Description: {{ requirement.description }}</p>
+
+
+<a href="{% url 'requirement_update' requirement.id %}">edit</a>
+<a href="{% url 'requirement_delete' requirement.id %}">delete</a>
+
+{% endblock %}

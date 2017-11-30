@@ -9,6 +9,18 @@
 
 <p>Description: {{ project.description }}</p>
 
+Requirements :
+{% if requirements_project %}
+    <ul>
+    {% for requirement in requirements_project %}
+        <li><a href="{% url 'requrirement_detail' requrirement.id %}">{{ requirement }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No requirements are available.</p>
+{% endif %}
+<a href="{% url 'requirement_new' project.pk %}">new requirement</a>
+
 {% if project.contributors.all %}
     <ul>
     {% for user in project.contributors.all %}
