@@ -14,12 +14,24 @@ from django.http import HttpResponse
 
 # Permission mixins
 # ##########################################################
+class CanCreate(UserPassesTestMixin):
+    login_url = 'home'
+
+    def test_func(self):
+        pk = self.kwargs['pk']
+        project = Project.objects.get(id=pk);
+        return self.request.user == project.admin or \
+            self.request.user in project.contributors.all()
+
 class CanModify(UserPassesTestMixin):
     login_url = 'home'
     
     def test_func(self):
         project = self.get_object()
-        return self.request.user == project.admin or self.request.user in project.contributors.all()
+        if type(project) == Requirement:
+            project = project.project
+        return self.request.user == project.admin or \
+            self.request.user in project.contributors.all()
 
 class CanDelete(UserPassesTestMixin):
     login_url = 'home'
@@ -95,8 +107,7 @@ class UserDelete(IsTargetUser, DeleteView):
 
 # Crud for Requirements
 # ##########################################################
-@method_decorator(login_required, name='dispatch')
-class RequirementCreate(CreateView):
+class RequirementCreate(CanCreate, CreateView):
     model = Requirement
     fields = ['name', 'description']
 
@@ -105,19 +116,16 @@ class RequirementCreate(CreateView):
         form.instance.project = Project.objects.get(id=project_id)
         return super(RequirementCreate, self).form_valid(form) 
 
-@method_decorator(login_required, name='dispatch')
-class RequirementView(generic.DetailView):
+class RequirementView(CanModify, generic.DetailView):
     model = Requirement
     pk_url_kwarg = 'rk'
 
-@method_decorator(login_required, name='dispatch')
-class RequirementUpdate(UpdateView):
+class RequirementUpdate(CanModify, UpdateView):
     model = Requirement
     fields = ['name', 'description']
     pk_url_kwarg = 'rk'
 
-@method_decorator(login_required, name='dispatch')
-class RequirementDelete(DeleteView):
+class RequirementDelete(CanModify, DeleteView):
     model = Requirement
     pk_url_kwarg = 'rk'
 
