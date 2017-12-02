@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'^projects/(?P<pk>[0-9]+)/delete/$', views.ProjectDelete.as_view(), name='project_delete'),
     url(r'^projects/(?P<pk>[0-9]+)/requirements/new/$', views.RequirementCreate.as_view(), name='requirement_new'),
     #url(r'^projects/(?P<project_id>)/requirements/new/$', requirementCreate, name='requirement_new'),
-    url(r'^requirements/(?P<pk>[0-9]+)/$', views.RequirementView.as_view(), name='requirement_detail'),
-    url(r'^requirements/(?P<pk>[0-9]+)/update/$', views.RequirementUpdate.as_view(), name='requirement_update'),
-    url(r'^requirements/(?P<pk>[0-9]+)/delete/$', views.RequirementDelete.as_view(), name='requirement_delete'),
+    url(r'^projects/(?P<pk>[0-9]+)/requirements/(?P<rk>[0-9]+)/$', views.RequirementView.as_view(), name='requirement_detail'),
+    url(r'^projects/(?P<pk>[0-9]+)/requirements/(?P<rk>[0-9]+)/update/$', views.RequirementUpdate.as_view(), name='requirement_update'),
+    url(r'^projects/(?P<pk>[0-9]+)/requirements/(?P<rk>[0-9]+)/delete/$', views.RequirementDelete.as_view(), name='requirement_delete'),
 ]

@@ -51,12 +51,6 @@ class ProjectCreate(CreateView):
 @method_decorator(login_required, name='dispatch')
 class ProjectView(generic.DetailView):
     model = Project
-    def get(self, *args, **kwargs):
-        project = self.get_object()
-        requirements_project = Requirement.objects.filter(project=project)
-        print requirements_project
-        return super(ProjectView, self).get(*args, **kwargs)
-
 
 @method_decorator(login_required, name='dispatch')
 class ProjectUpdate(UpdateView):
@@ -75,31 +69,27 @@ class ProjectDelete(DeleteView):
 class RequirementCreate(CreateView):
     model = Requirement
     fields = ['name', 'description']
-    #def get_context_data (self, **kwargs):
-    #    context = super(RequirementCreate, self).get_context_data(**kwargs)
-    #    print self.request.session['project_id']
-    #    print "AAAAAAAA" + context
-    #    return context
 
     def form_valid(self, form):
         project_id = self.kwargs["pk"]
-        print project_id
         form.instance.project = Project.objects.get(id=project_id)
         return super(RequirementCreate, self).form_valid(form) 
-
-
 
 @method_decorator(login_required, name='dispatch')
 class RequirementView(generic.DetailView):
     model = Requirement
+    pk_url_kwarg = 'rk'
 
 @method_decorator(login_required, name='dispatch')
 class RequirementUpdate(UpdateView):
     model = Requirement
     fields = ['name', 'description']
+    pk_url_kwarg = 'rk'
 
 @method_decorator(login_required, name='dispatch')
 class RequirementDelete(DeleteView):
     model = Requirement
-    success_url = reverse_lazy('home')
-   
+    pk_url_kwarg = 'rk'
+
+    def get_success_url(self):
+        return reverse_lazy('project_detail', kwargs={'pk': self.object.project.id}).format(**self.object.__dict__)
