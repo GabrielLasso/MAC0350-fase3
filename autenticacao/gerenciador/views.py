@@ -10,9 +10,31 @@ from django.views import generic
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from forms import *
 from models import *
+from django.http import HttpResponse
 
-# Create your views here.
+# Permission mixins
+# ##########################################################
+class CanModify(UserPassesTestMixin):
+    login_url = 'home'
+    
+    def test_func(self):
+        project = self.get_object()
+        return self.request.user == project.admin or self.request.user in project.contributors.all()
 
+class CanDelete(UserPassesTestMixin):
+    login_url = 'home'
+
+    def test_func(self):
+        return self.request.user == self.get_object().admin
+
+class IsTargetUser(UserPassesTestMixin):
+    login_url = 'home'
+
+    def test_func(self):
+        return self.request.user == self.get_object()
+
+# Home and signup
+# ##########################################################
 @login_required
 def home(request):
     user = request.user
@@ -35,6 +57,9 @@ def signup(request):
         form = UserForm()
     return render(request, 'signup.html', {'form': form})
 
+
+# Crud for Projects
+# ##########################################################
 @method_decorator(login_required, name='dispatch')
 class ProjectCreate(CreateView):
     model = Project
@@ -44,19 +69,6 @@ class ProjectCreate(CreateView):
         form.instance.admin = self.request.user
         return super(ProjectCreate, self).form_valid(form)
     
-class CanModify(UserPassesTestMixin):
-    login_url = 'home'
-    
-    def test_func(self):
-        project = self.get_object()
-        return self.request.user == project.admin or self.request.user in project.contributors.all()
-
-class CanDelete(UserPassesTestMixin):
-    login_url = 'home'
-
-    def test_func(self):
-        return self.request.user == self.get_object().admin
-
 class ProjectView(CanModify, generic.DetailView):
     model = Project
 
@@ -68,15 +80,10 @@ class ProjectDelete(CanDelete, DeleteView):
     model = Project
     success_url = reverse_lazy('home')
 
-class IsTargetUser(UserPassesTestMixin):
-    login_url = 'home'
-
-    def test_func(self):
-        return self.request.user == self.get_object()
-
+# Crud for Users
+# ##########################################################
 class UserView(IsTargetUser, generic.DetailView):
     model = User
-
 
 class UserUpdate(IsTargetUser, UpdateView):
     model = User
@@ -86,3 +93,33 @@ class UserDelete(IsTargetUser, DeleteView):
     model = User
     success_url = reverse_lazy('home')
 
+# Crud for Requirements
+# ##########################################################
+@method_decorator(login_required, name='dispatch')
+class RequirementCreate(CreateView):
+    model = Requirement
+    fields = ['name', 'description']
+
+    def form_valid(self, form):
+        project_id = self.kwargs["pk"]
+        form.instance.project = Project.objects.get(id=project_id)
+        return super(RequirementCreate, self).form_valid(form) 
+
+@method_decorator(login_required, name='dispatch')
+class RequirementView(generic.DetailView):
+    model = Requirement
+    pk_url_kwarg = 'rk'
+
+@method_decorator(login_required, name='dispatch')
+class RequirementUpdate(UpdateView):
+    model = Requirement
+    fields = ['name', 'description']
+    pk_url_kwarg = 'rk'
+
+@method_decorator(login_required, name='dispatch')
+class RequirementDelete(DeleteView):
+    model = Requirement
+    pk_url_kwarg = 'rk'
+
+    def get_success_url(self):
+        return reverse_lazy('project_detail', kwargs={'pk': self.object.project.id}).format(**self.object.__dict__)

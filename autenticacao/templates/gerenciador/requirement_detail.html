@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Project{% endblock %}
+
+{% block content %}
+
+<h1>{{ requirement.name }}</h1>
+
+<p>Project: <a href="{% url 'project_detail' requirement.project.id %}">{{ requirement.project }}</a></p>
+
+<p>Description: {{ requirement.description }}</p>
+
+
+<a href="{% url 'requirement_update' requirement.project.id requirement.id %}">edit</a>
+<a href="{% url 'requirement_delete' requirement.project.id requirement.id %}">delete</a>
+
+{% endblock %}
