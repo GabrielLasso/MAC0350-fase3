@@ -131,3 +131,6 @@ AUTH_USER_MODEL = 'manager.User'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = LOGIN_URL
+
+LANG="pt_BR.utf8"
+LC_ALL="pt_BR.UTF-8"

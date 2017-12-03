@@ -27,7 +27,7 @@ class Project(models.Model):
     admin = models.ForeignKey(User, on_delete=models.CASCADE, related_name='administers')
     contributors = models.ManyToManyField(User, related_name='contributes')
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def get_absolute_url(self):
@@ -39,7 +39,7 @@ class Requirement(models.Model):
     functional = models.BooleanField(default=0)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='requirements')
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def get_absolute_url(self):

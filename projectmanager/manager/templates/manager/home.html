@@ -3,13 +3,16 @@
 {% block content %}
   <h2>Home</h2>
 
-Your projects:
+<h5>Your projects:</h5>
 {% if projects_admin %}
-    <ul>
+    <table class='table table-striped'>
     {% for project in projects_admin %}
-        <li><a href="{% url 'project_detail' project.id %}">{{ project }}</a></li>
+        <tr>
+            <td><a href="{% url 'project_detail' project.id %}">{{ project }}</a></td>
+            <td style='word-break:break-all'>{{project.description}}</td>
+        </tr>
     {% endfor %}
-    </ul>
+    </table>
 {% else %}
     <p>No projects are available.</p>
 {% endif %}
@@ -17,13 +20,16 @@ Your projects:
 <br>
 <br>
 
-Projects you contribute to:
+<h5>Projects you contribute to:</h5>
 {% if projects_contribute %}
-    <ul>
+    <table class='table table-striped'>
     {% for project in projects_contribute %}
-        <li><a href="{% url 'project_detail' project.id %}">{{ project }}</a></li>
+        <tr>
+            <td><a href="{% url 'project_detail' project.id %}">{{ project }}</a></td>
+            <td style='word-break:break-all'>{{project.description}}</td>
+        </tr>
     {% endfor %}
-    </ul>
+    </table>
 {% else %}
     <p>No projects are available.</p>
 {% endif %}
