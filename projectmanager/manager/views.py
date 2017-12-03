@@ -149,14 +149,13 @@ class ProjectContributorAdd(ProjectContributor):
 
 class ProjectContributorRemove(ProjectContributor):
     template_name = 'manager/project_contributor_remove.html'
-    form_class = ContributorForm
 
-    def form_valid(self, form):
-        username = form.cleaned_data['username']
-        user = User.objects.get(username=username)
+    def get(self, _id, pk, username):
+        name = self.kwargs['username']
+        user = User.objects.get(username=name)
         project = self.object
         project.contributors.remove(user)
-        return redirect(project)
+        return redirect("../..")
 
 class ProjectDelete(IsAdmin, DeleteView):
     model = Project

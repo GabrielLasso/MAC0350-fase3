@@ -20,7 +20,7 @@ urlpatterns = [
         ProjectUpdate.as_view(), name='project_update'),
     url(r'^projects/(?P<pk>[0-9]+)/add_contributor/$',
         ProjectContributorAdd.as_view(), name='add_contributor'),
-    url(r'^projects/(?P<pk>[0-9]+)/remove_contributor/$',
+    url(r'^projects/(?P<pk>[0-9]+)/remove_contributor/(?P<username>.+)/$',
         ProjectContributorRemove.as_view(), name='remove_contributor'),
     url(r'^projects/(?P<pk>[0-9]+)/delete/$',
         ProjectDelete.as_view(), name='project_delete'),

@@ -4,6 +4,7 @@
 
 {% block content %}
 <h2>{{ project.name }}</h2>
+Owner: {{ project.admin }}
 
 <p>{{ project.description }}</p>
 
@@ -18,7 +19,7 @@
         <tr>
             <td><h6>{{ requirement }}</h6></td>
             <td>{{requirement.description}}</td>
-            <td>
+            <td style='float:right'>
                 <a href="{% url 'requirement_update' requirement.project.id requirement.id %}">edit</a><br>
                 <a href={% url 'requirement_delete' requirement.project.id requirement.id %}>delete</a>
             </td>
@@ -37,7 +38,7 @@
         <tr>
             <td><h6>{{ requirement }}</h6></td>
             <td>{{requirement.description}}</td>
-            <td>
+            <td style='float:right'>
                 <a href="{% url 'requirement_update' requirement.project.id requirement.id %}">edit</a><br>
                 <a href={% url 'requirement_delete' requirement.project.id requirement.id %}>delete</a>
             </td>
@@ -52,20 +53,23 @@
 <p><a href="{% url 'requirement_new' project.id %}">new requirement</a></p>
 
 
-<p>Owner: {{ project.admin }}</p>
 
-Contributors:
+<h4>Contributors:</h4>
 {% if project.contributors.all %}
-    <ul>
+    <table class='table table-striped'>
     {% for contributor in project.contributors.all %}
-        <li>{{ contributor }}</li>
+        <tr>
+            <td><h6>{{ contributor }}</h6></td>
+            <td style='float:right'>
+                <p><a href="{% url 'remove_contributor' project.id contributor.username %}">remove</a></p>
+            </td>
+        </tr>
     {% endfor %}
-    </ul>
+    </table>
 {% else %}
     <p>No contributing users.</p>
 {% endif %}
 <p><a href="{% url 'add_contributor' project.id %}">add contributor</a></p>
-<p><a href="{% url 'remove_contributor' project.id %}">remove contributor</a></p>
 
 <br>
 <a href="{% url 'project_delete' project.id %}">delete</a>
