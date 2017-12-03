@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Project{% endblock %}
+
+{% block content %}
+
+<h1>{{ forum.name }}</h1>
+
+<p>Project: <a href="{% url 'project_detail' forum.project.id %}">{{ forum.project }}</a></p>
+
+<p>Description: {{ forum.description }}</p>
+
+
+<a href="{% url 'forum_update' forum.project.id forum.id %}">edit</a>
+<a href="{% url 'forum_delete' forum.project.id forum.id %}">delete</a>
+
+{% endblock %}

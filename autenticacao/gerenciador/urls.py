@@ -21,6 +21,7 @@ urlpatterns = [
         views.ProjectUpdate.as_view(), name='project_update'),
     url(r'^projects/(?P<pk>[0-9]+)/delete/$',
         views.ProjectDelete.as_view(), name='project_delete'),
+    
     # Requirements
     url(r'^projects/(?P<pk>[0-9]+)/requirements/new/$',
         views.RequirementCreate.as_view(), name='requirement_new'),
@@ -30,4 +31,14 @@ urlpatterns = [
         views.RequirementUpdate.as_view(), name='requirement_update'),
     url(r'^projects/(?P<pk>[0-9]+)/requirements/(?P<rk>[0-9]+)/delete/$',
         views.RequirementDelete.as_view(), name='requirement_delete'),
+    
+    # Forum
+    url(r'^projects/(?P<pk>[0-9]+)/forum/new/$',
+        views.ForumCreate.as_view(), name='forum_new'),
+    url(r'^projects/(?P<pk>[0-9]+)/forums/(?P<fk>[0-9]+)/$',
+        views.ForumView.as_view(), name='forum_detail'),
+    url(r'^projects/(?P<pk>[0-9]+)/forums/(?P<fk>[0-9]+)/update/$',
+        views.ForumUpdate.as_view(), name='forum_update'),
+    url(r'^projects/(?P<pk>[0-9]+)/forums/(?P<fk>[0-9]+)/delete/$',
+        views.ForumDelete.as_view(), name='forum_delete'),
 ]

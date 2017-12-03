@@ -87,6 +87,7 @@ class ProjectView(CanModify, generic.DetailView):
         context = super(ProjectView, self).get_context_data(**kwargs)
         context['functional_requirements'] = self.get_object().requirements.filter(functional=True)
         context['non_functional_requirements'] = self.get_object().requirements.filter(functional=False)
+        context['forums'] = self.get_object().forums.all() 
         return context
 
 class ProjectUpdate(CanModify, UpdateView):
@@ -136,3 +137,30 @@ class RequirementDelete(CanModify, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('project_detail', kwargs={'pk': self.object.project.id}).format(**self.object.__dict__)
+
+# Crud for Requirements
+# ##########################################################
+class ForumCreate(CanCreate, CreateView):
+    model = Forum
+    fields = ['name', 'description']
+
+    def form_valid(self, form):
+        project_id = self.kwargs["pk"]
+        form.instance.project = Project.objects.get(id=project_id)
+        return super(ForumCreate, self).form_valid(form) 
+
+class ForumView(CanModify, generic.DetailView):
+    model = Forum
+    pk_url_kwarg = 'fk'
+
+class ForumUpdate(CanModify, UpdateView):
+    model = Forum
+    fields = ['name', 'description']
+    pk_url_kwarg = 'fk'
+
+class ForumDelete(CanModify, DeleteView):
+    model = Forum
+    pk_url_kwarg = 'fk'
+
+    def get_success_url(self):
+        return reverse_lazy('forum_detail', kwargs={'pk': self.object.project.id}).format(**self.object.__dict__)

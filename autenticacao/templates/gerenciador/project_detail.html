@@ -42,6 +42,17 @@ Contributors:
     <p>No contributing users.</p>
 {% endif %}
 
+{% if forums %}
+    <ul>
+    {% for forum in forums %}
+        <li><a href="{% url 'forum_detail' project.id forum.id %}">{{ forum }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Forum available.</p>
+{% endif %}
+<p><a href="{% url 'forum_new' project.id %}">new forum</a></p>
+
 <a href="{% url 'project_update' project.id %}">edit</a>
 <a href="{% url 'project_delete' project.id %}">delete</a>
 

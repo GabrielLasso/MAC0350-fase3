@@ -30,3 +30,15 @@ class Requirement(models.Model):
     def get_absolute_url(self):
         return reverse('requirement_detail', kwargs={'pk': self.project.id ,
                                                      'rk': self.id})
+
+class Forum(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True, null=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='forums')
+    
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('forum_detail', kwargs={'pk': self.project.id ,
+                                               'fk': self.id})
