@@ -148,7 +148,7 @@ class ProjectContributorAdd(ProjectContributor):
         return redirect(project)
 
 class ProjectContributorRemove(ProjectContributor):
-    template_name = 'manager/project_contributor_add.html'
+    template_name = 'manager/project_contributor_remove.html'
     form_class = ContributorForm
 
     def form_valid(self, form):
