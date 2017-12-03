@@ -83,6 +83,11 @@ class ProjectCreate(CreateView):
     
 class ProjectView(CanModify, generic.DetailView):
     model = Project
+    def get_context_data(self, **kwargs):
+        context = super(ProjectView, self).get_context_data(**kwargs)
+        context['functional_requirements'] = self.get_object().requirements.filter(functional=True)
+        context['non_functional_requirements'] = self.get_object().requirements.filter(functional=False)
+        return context
 
 class ProjectUpdate(CanModify, UpdateView):
     model = Project
@@ -109,7 +114,7 @@ class UserDelete(IsTargetUser, DeleteView):
 # ##########################################################
 class RequirementCreate(CanCreate, CreateView):
     model = Requirement
-    fields = ['name', 'description']
+    fields = ['name','functional', 'description']
 
     def form_valid(self, form):
         project_id = self.kwargs["pk"]

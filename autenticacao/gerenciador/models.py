@@ -15,13 +15,15 @@ class Project(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('project_detail', kwargs={'pk': self.pk})    
+        return reverse('project_detail', kwargs={'pk': self.pk})
+        
 
 class Requirement(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
+    functional = models.BooleanField(default=1)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='requirements')
-
+    
     def __str__(self):
         return self.name
 
