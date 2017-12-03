@@ -9,15 +9,25 @@
 
 <p>Description: {{ project.description }}</p>
 
-Requirements:
-{% if project.requirements.all %}
+Functional requirements:
+{% if functional_requirements %}
     <ul>
-    {% for requirement in project.requirements.all %}
+    {% for requirement in functional_requirements %}
         <li><a href="{% url 'requirement_detail' project.id requirement.id %}">{{ requirement }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
-    <p>No requirements are available.</p>
+    <p>No functional requirements are available.</p>
+{% endif %}
+Non-functional requirements:
+{% if non_functional_requirements %}
+    <ul>
+    {% for requirement in non_functional_requirements %}
+        <li><a href="{% url 'requirement_detail' project.id requirement.id %}">{{ requirement }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No non-functional requirements are available.</p>
 {% endif %}
 <p><a href="{% url 'requirement_new' project.id %}">new requirement</a></p>
 
