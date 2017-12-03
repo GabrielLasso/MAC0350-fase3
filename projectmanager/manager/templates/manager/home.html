@@ -3,4 +3,28 @@
 {% block content %}
   <h2>Home</h2>
 
+Your projects:
+{% if projects_admin %}
+    <ul>
+    {% for project in projects_admin %}
+        <li><a href="{% url 'project_detail' project.id %}">{{ project }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No projects are available.</p>
+{% endif %}
+<a href="{% url 'project_new'%}">new project</a>
+<br>
+<br>
+
+Projects you contribute to:
+{% if projects_contribute %}
+    <ul>
+    {% for project in projects_contribute %}
+        <li><a href="{% url 'project_detail' project.id %}">{{ project }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No projects are available.</p>
+{% endif %}
 {% endblock %}

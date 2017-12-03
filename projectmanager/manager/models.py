@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
-# Create your models here.
+
 
 class User(AbstractUser):
     email = models.EmailField(
@@ -30,8 +30,8 @@ class Project(models.Model):
     def __str__(self):
         return self.name
 
-#     def get_absolute_url(self):
-#         return reverse('project_detail', kwargs={'pk': self.pk})    
+    def get_absolute_url(self):
+        return reverse('project_detail', kwargs={'pk': self.pk})    
 
 class Requirement(models.Model):
     name = models.CharField(max_length=200)
@@ -41,6 +41,6 @@ class Requirement(models.Model):
     def __str__(self):
         return self.name
 
-#     def get_absolute_url(self):
-#         return reverse('requirement_detail', kwargs={'pk': self.project.id ,
-#                                                      'rk': self.id})
+    def get_absolute_url(self):
+        return reverse('requirement_detail', kwargs={'pk': self.project.id ,
+                                                     'rk': self.id})

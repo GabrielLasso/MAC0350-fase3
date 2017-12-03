@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Project{% endblock %}
+
+{% block content %}
+<h1>{{ project.name }}</h1>
+
+<p>Owner: {{ project.admin }}</p>
+
+<p>Description: {{ project.description }}</p>
+
+<p><a href="{% url 'project_update' project.id %}">edit</a></p>
+
+Requirements:
+{% if project.requirements.all %}
+    <ul>
+    {% for requirement in project.requirements.all %}
+        <li>
+          <a href="{% url 'requirement_detail' project.id requirement.id %}">{{ requirement }}</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No requirements are available.</p>
+{% endif %}
+<p><a href="{% url 'requirement_new' project.id %}">new requirement</a></p>
+
+Contributors:
+{% if project.contributors.all %}
+    <ul>
+    {% for contributor in project.contributors.all %}
+        <li>{{ contributor }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No contributing users.</p>
+{% endif %}
+<p><a href="{% url 'add_contributor' project.id %}">add contributor</a></p>
+<p><a href="{% url 'remove_contributor' project.id %}">remove contributor</a></p>
+
+<br>
+<a href="{% url 'project_delete' project.id %}">delete</a>
+
+{% endblock %}
