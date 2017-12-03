@@ -36,6 +36,7 @@ class Project(models.Model):
 class Requirement(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
+    functional = models.BooleanField(default=0)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='requirements')
 
     def __str__(self):
