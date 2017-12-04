@@ -34,6 +34,10 @@ a:hover {
   color: #FFFFFF;
 }
 
+.help {
+  color: #757575;
+}
+
 hr {
     display: block;
     height: 1px;
