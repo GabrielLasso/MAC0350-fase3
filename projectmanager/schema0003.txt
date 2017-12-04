@@ -1,9 +1,0 @@
-BEGIN;
---
--- Alter field email on user
---
-ALTER TABLE "manager_user" RENAME TO "manager_user__old";
-CREATE TABLE "manager_user" ("id" integer NOT NULL PRIMARY KEY AUTOINCREMENT, "email" varchar(254) NOT NULL UNIQUE, "password" varchar(128) NOT NULL, "last_login" datetime NULL, "is_superuser" bool NOT NULL, "username" varchar(150) NOT NULL UNIQUE, "first_name" varchar(30) NOT NULL, "last_name" varchar(30) NOT NULL, "is_staff" bool NOT NULL, "is_active" bool NOT NULL, "date_joined" datetime NOT NULL);
-INSERT INTO "manager_user" ("username", "first_name", "last_name", "is_active", "email", "is_superuser", "is_staff", "last_login", "password", "id", "date_joined") SELECT "username", "first_name", "last_name", "is_active", "email", "is_superuser", "is_staff", "last_login", "password", "id", "date_joined" FROM "manager_user__old";
-DROP TABLE "manager_user__old";
-COMMIT;
