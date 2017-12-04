@@ -1,30 +1,96 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Home</h2>
+{% load static %}
+<link rel='stylesheet' type='text/css' href="{% static 'stylesheets/table.css' %}" />
+<h2>Home</h2>
 
-Your projects:
-{% if projects_admin %}
-    <ul>
-    {% for project in projects_admin %}
-        <li><a href="{% url 'project_detail' project.id %}">{{ project }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No projects are available.</p>
-{% endif %}
-<a href="{% url 'project_new'%}">new project</a>
+<table class='table table-strip'>
+  <thead>
+    <tr>
+      <th colspan="2" class="table-header">
+        Your Projects:
+      </th>
+      <th class="btn-row">
+        <a href="{% url 'project_new'%}" class="btn">New Project</a>
+      </th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th colspan="2">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if projects_admin %}
+      {% for project in projects_admin %}
+        <tr>
+          <td>
+            <a href="{% url 'project_detail' project.id %}">{{ project }}</a>
+          </td>
+
+          <td style='word-break:break-all'>
+            {{project.description}}
+          </td>
+
+          <td class="btn-row">
+            <!--<%= link_to exclude_dev_from_team_path(id: @dev_team.id, user_id: user.id), {class: 'button delete', "data-tooltip": "Delete"} do %>
+              <i class="fa fa-trash-o fa-3x" aria-hidden="true"></i>
+            <% end %>-->
+          </td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="3">
+          No projects are available
+        </td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+
 <br>
+<hr>
 <br>
 
-Projects you contribute to:
-{% if projects_contribute %}
-    <ul>
-    {% for project in projects_contribute %}
-        <li><a href="{% url 'project_detail' project.id %}">{{ project }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No projects are available.</p>
-{% endif %}
+<table class='table table-strip'>
+  <thead>
+    <tr>
+      <th colspan="3" class="table-header">
+        Projects you contribute to:
+      </th>
+    </tr>
+    <tr>
+      <th>Name</th>
+      <th colspan="2">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if projects_contribute %}
+      {% for project in projects_contribute %}
+        <tr>
+          <td>
+            <a href="{% url 'project_detail' project.id %}">{{ project }}</a>
+          </td>
+
+          <td style='word-break:break-all'>
+            {{project.description}}
+          </td>
+
+          <td class="btn-row">
+            <!--<%= link_to exclude_dev_from_team_path(id: @dev_team.id, user_id: user.id), {class: 'button delete', "data-tooltip": "Delete"} do %>
+              <i class="fa fa-trash-o fa-3x" aria-hidden="true"></i>
+            <% end %>-->
+          </td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="3">
+          No projects are available
+        </td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
 {% endblock %}

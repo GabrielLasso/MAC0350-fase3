@@ -21,7 +21,7 @@ class ContributorForm(Form):
     )
 
     def clean_username(self):
-        print "Cleaning username"
+        print ("Cleaning username")
         username = self.cleaned_data['username']
         try:
             User.objects.get(username=username)
@@ -30,7 +30,7 @@ class ContributorForm(Form):
         return username
 
     def clean_project_id(self):
-        print "Cleaning project id"
+        print ("Cleaning project id")
         project_id = self.cleaned_data['project_id']
         try:
             Project.objects.get(pk=project_id)

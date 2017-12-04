@@ -3,55 +3,144 @@
 {% block title %}Project{% endblock %}
 
 {% block content %}
-<h1>{{ project.name }}</h1>
+{% load static %}
+<link rel='stylesheet' type='text/css' href="{% static 'stylesheets/table.css' %}" />
+<link rel='stylesheet' type='text/css' href="{% static 'stylesheets/project.css' %}" />
 
-<p>Owner: {{ project.admin }}</p>
+<div class="header">
+<h1>{{ project.name }} </h1>
+<p> Owner: {{ project.admin }}</p>
+</div>
 
-<p>Description: {{ project.description }}</p>
+<h3>{{ project.description }}</h3>
 
-<p><a href="{% url 'project_update' project.id %}">edit</a></p>
+<a href="{% url 'project_update' project.id %}">Edit</a> | <a href="{% url 'project_delete' project.id %}">Delete</a>
 
-Functional requirements:
-{% if functional_requirements %}
-    <ul>
-    {% for requirement in functional_requirements %}
-        <li>
-            <a href="{% url 'requirement_detail' project.id requirement.id %}">{{ requirement }}</a>
-        </li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No functional requirements are available.</p>
-{% endif %}
+<hr>
 
-Non-functional requirements:
-{% if non_functional_requirements %}
-    <ul>
-    {% for requirement in non_functional_requirements %}
-        <li>
-            <a href="{% url 'requirement_detail' project.id requirement.id %}">{{ requirement }}</a>
-        </li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No non-functional requirements are available.</p>
-{% endif %}
-<p><a href="{% url 'requirement_new' project.id %}">new requirement</a></p>
-
-Contributors:
-{% if project.contributors.all %}
-    <ul>
-    {% for contributor in project.contributors.all %}
-        <li>{{ contributor }}</li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No contributing users.</p>
-{% endif %}
-<p><a href="{% url 'add_contributor' project.id %}">add contributor</a></p>
-<p><a href="{% url 'remove_contributor' project.id %}">remove contributor</a></p>
+<a href="{% url 'requirement_new' project.id %}" class="btn" style="margin-bottom: 10px;">New Requirement</a>
 
 <br>
-<a href="{% url 'project_delete' project.id %}">delete</a>
+
+<div class='row'>
+  <div class='col-md-6'>
+    <table class='table table-striped'>
+      <thead>
+        <tr>
+          <th colspan="3" class="table-header">
+            Functional Requirements:
+          </th>
+        </tr>
+        <tr>
+          <th>Requirement</th>
+          <th colspan="2">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if functional_requirements %}
+          {% for requirement in functional_requirements %}
+            <tr>
+              <td>{{ requirement }}</td>
+              <td>{{requirement.description}}</td>
+
+              <td class="btn-row">
+                <a href="{% url 'requirement_update' requirement.project.id requirement.id %}">Edit</a>
+                <a href="{% url 'requirement_delete' requirement.project.id requirement.id %}">Delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="3">
+              No functional requirements are available.
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+  <div class='col-md-6'>
+    <table class='table table-striped'>
+      <thead>
+        <tr>
+          <th colspan="3" class="table-header">
+            Non-Functional Requirements:
+          </th>
+        </tr>
+        <tr>
+          <th>Requirement</th>
+          <th colspan="2">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if non_functional_requirements %}
+          {% for requirement in non_functional_requirements %}
+            <tr>
+              <td>{{ requirement }}</td>
+              <td>{{requirement.description}}</td>
+
+              <td class="btn-row">
+                <a href="{% url 'requirement_update' requirement.project.id requirement.id %}">
+                  Edit
+                </a>
+                <a href="{% url 'requirement_delete' requirement.project.id requirement.id %}">
+                  Delete
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="3">
+              No non-functional requirements are available.
+            </td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<br>
+<hr>
+<br>
+
+<table class='table table-striped'>
+  <thead>
+    <tr>
+      <th class="table-header">
+        Contributors:
+      </th>
+      <th class="btn-row">
+        <a href="{% url 'add_contributor' project.id %}" class="btn">Add Contributor</a>
+      </th>
+    </tr>
+    <tr>
+      <th colspan="2">Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if project.contributors.all %}
+      {% for contributor in project.contributors.all %}
+        <tr>
+          <td>{{ contributor }}</td>
+
+          <td class="btn-row">
+            <a href="{% url 'remove_contributor' project.id %}">Remove</a>
+          </td>
+        </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="2">
+          No contributing users.
+        </td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+
+
 
 {% endblock %}
