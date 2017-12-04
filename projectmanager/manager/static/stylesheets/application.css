@@ -1,0 +1,46 @@
+body {
+  background-color: #EEEEEE;
+}
+
+a {
+  color: #00BCD4;
+}
+
+a:hover {
+  color: #FFC107;
+  text-decoration: none;
+}
+
+.navbar {
+  background: #512DA8;
+  border-radius: 0px;
+}
+
+.navbar-color, .navbar-color-nohover {
+  color:#D1C4E9 !important;
+}
+
+.navbar-color:hover {
+  color: #00BCD4 !important;
+}
+
+.btn {
+  background-color: #00BCD4;
+  color: #FFFFFF;
+}
+
+.btn:hover {
+  background-color: #FFC107;
+  color: #FFFFFF;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    color: #ccc;
+    background-color: #ccc;
+    margin: 1em 0;
+    padding: 0;
+}

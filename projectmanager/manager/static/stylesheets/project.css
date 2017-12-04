@@ -1,0 +1,9 @@
+.header h1,
+.header p {
+    display: inline;
+    vertical-align: bottom;
+}
+
+.header p {
+  color: #757575;
+}
