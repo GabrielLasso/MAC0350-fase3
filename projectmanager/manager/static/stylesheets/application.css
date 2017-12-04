@@ -17,11 +17,28 @@ a:hover {
 }
 
 .navbar-color, .navbar-color-nohover {
-  color:#D1C4E9 !important;
+  color: #D1C4E9 !important;
 }
 
 .navbar-color:hover {
   color: #00BCD4 !important;
+}
+
+.navbar .navbar-nav > li.open > a:hover,
+.navbar .navbar-nav > li.open > a:focus {
+  color: #00BCD4 !important;
+  background-image: none !important;
+  background-color: #512DA8 !important;
+}
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+  background-color: #D1C4E9;
+  background-image: none !important;
+  color: #757575 !important;
+}
+
+.dropdown-menu {
+  background-color: #D1C4E9;
 }
 
 .btn {
@@ -32,6 +49,10 @@ a:hover {
 .btn:hover {
   background-color: #FFC107;
   color: #FFFFFF;
+}
+
+.help {
+  color: #757575;
 }
 
 hr {

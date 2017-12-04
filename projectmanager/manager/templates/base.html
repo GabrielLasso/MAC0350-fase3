@@ -41,7 +41,15 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="{% url 'home' %}" class="navbar-color">My Projects</a></li>
-            <li><a href="{% url 'user_detail' %}" class="navbar-color dropdown-toggle">My Profile</a></li>      
+            <!--<li><a href="{% url 'user_detail' %}" class="navbar-color">My Profile</a></li>-->
+            <li class="dropdown">
+              <a href="#" class="navbar-color dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">My Profile <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'user_update' %}">Edit Profile</a></li>
+                <li><a href="{% url 'password_change' %}">Change Password</a></li>
+                <li><a href="{% url 'user_delete' %}">Delete</a></li>
+              </ul>
+            </li>
             <li><a href="{% url 'logout' %}" class="navbar-color">Logout</a></li>
           </ul>
           {% else %}
