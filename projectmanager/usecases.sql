@@ -27,15 +27,28 @@ UPDATE manager_project
 	WHERE manager_project.id = 6;
 
 -- Caso de uso 6
--- Um usuario pode deletar um projeto do qual e administrador, excluindo ele e seus requisitos dobanco de dados.
-DELETE FROM manager_project WHERE manager_project.id = 6;
+-- Um usuario pode visualizar todos os projetos dos quais e administrador
+SELECT manager_project.id, manager_project.name, manager_project.description, manager_project.admin_id
+  FROM manager_project WHERE manager_project.admin_id = 1;
 
 -- Caso de uso 7
+-- Um usuario pode visualizar todos os projetos dos quais e colaborador
+SELECT manager_project.id, manager_project.name, manager_project.description, manager_project.admin_id
+  FROM manager_project INNER JOIN manager_project_contributors ON (manager_project.id = manager_project_contributors.project_id)
+  WHERE manager_project_contributors.user_id = 1;
+
+-- Caso de uso 8
+-- Um usuario pode deletar um projeto do qual e administrador, excluindo ele e seus requisitos dobanco de dados.
+DELETE FROM manager_requirement WHERE manager_requirement.project_id = 6;
+DELETE FROM manager_project_contributors WHERE manager_project_contributors.project_id = 6;
+DELETE FROM manager_project WHERE manager_project.id = 6;
+
+-- Caso de uso 9
 -- Um usuario pode adicionar e editar requisitos a projetos existentes.
 -- Estas acoes estao restritasaos projetos em que o usuario e administrador ou colaborador.
 INSERT INTO manager_requirement (name, description, functional, project_id)
 	VALUES ('Sorteio', 'Um cliente pode ganhar uma casa', true, 3);
 
--- Caso de uso 8
+-- Caso de uso 10
 -- Um usuario pode excluir requisitos de projetos do qual e dono ou colaborador.
 DELETE FROM manager_requirement WHERE manager_requirement.id = 11;
